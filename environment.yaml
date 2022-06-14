@@ -1,0 +1,19 @@
+name: planarrecon
+channels:
+  # You can use the TUNA mirror to speed up the installation if you are in mainland China.
+  # - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch
+  - pytorch
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.6
+  - pytorch=1.7.0
+  - torchvision==0.8.0
+  - cudatoolkit=11.0
+  - ipython
+  - tqdm
+  # - sparsehash  # dependency for torchsparse
+  - pip
+  - pip:
+    - -r requirements.txt
+    # - git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0

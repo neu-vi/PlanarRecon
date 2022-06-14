@@ -1,0 +1,15 @@
+ray
+transforms3d
+tqdm
+opencv-python
+tensorboardX
+scikit-image
+trimesh
+yacs
+h5py
+loguru
+plyfile
+sklearn
+colorama
+open3d
+ninja
