@@ -106,7 +106,7 @@ export CUDA_VISIBLE_DEVICES=0,1
 python -m torch.distributed.launch --nproc_per_node=2 main.py --cfg ./config/train.yaml
 ```
 </details>
-Similar to NeuralRecon, the training is seperated to three phases and the switching between phases is controlled manually for now:
+Similar to NeuralRecon, the training is seperated to three phases and the switching is controlled manually for now:
 
 -  Phase 1 (the first 0-20 epoch), training single fragments.  
 `MODEL.FUSION.FUSION_ON=False, MODEL.TRACKING=False`
