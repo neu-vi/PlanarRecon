@@ -14,7 +14,7 @@
 ## TODO List and ETA
 - [x] Code for training and inference, and the data preparation scripts (2022-6-14).
 - [x] Pretrained models on ScanNet (2021-6-14).
-- [x] Evaluation code and metrics (expected 2022-6-14).
+- [x] Evaluation code and metrics (2022-6-14).
 
 
 ## How to Use

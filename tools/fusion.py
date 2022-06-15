@@ -1,5 +1,5 @@
 # This file is derived from [torchsdf-fusion](https://github.com/kevinzakka/torchsdf-fusion).
-# Originating Author: Zak Murez (zak.murez.com)
+# Originating Author: Kevin Zakka
 # Modified for [PlanarRecon](https://github.com/neu-vi/PlanarRecon) by Yiming Xie.
 
 

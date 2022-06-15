@@ -1,8 +1,8 @@
 """
-# This file is derived from [PlaneAE](https://github.com/svip-lab/PlanarReconstruction).
-# Modified for [PlanarRecon](https://github.com/neu-vi/PlanarRecon) by Yiming Xie.
+This file is derived from [PlaneAE](https://github.com/svip-lab/PlanarReconstruction).
+Modified for [PlanarRecon](https://github.com/neu-vi/PlanarRecon) by Yiming Xie.
 
-# Original License:
+Original License:
 MIT License
 
 Copyright (c) 2019 Zehao Yu, Jia Zheng, Dongze Lian, Zihan Zhou, Shenghua Gao

@@ -1,3 +1,13 @@
+# Matching function is derived from [superglue](https://github.com/HeatherJiaZG/SuperGlue-pytorch/blob/master/models/superglue.py).
+# Originating Author: Paul-Edouard Sarlin
+# Modified for [PlanarRecon](https://github.com/neu-vi/PlanarRecon) by Yiming Xie.
+
+# Original header:
+# Magic Leap, Inc. ("COMPANY") CONFIDENTIAL
+#
+# Unpublished Copyright (c) 2020
+# Magic Leap, Inc., All Rights Reserved.
+
 import io
 import numpy as np
 import torch

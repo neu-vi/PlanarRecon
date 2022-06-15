@@ -12,8 +12,6 @@ dependencies:
   - cudatoolkit=11.0
   - ipython
   - tqdm
-  # - sparsehash  # dependency for torchsparse
   - pip
   - pip:
     - -r requirements.txt
-    # - git+https://github.com/mit-han-lab/torchsparse.git@v1.4.0

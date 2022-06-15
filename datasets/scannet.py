@@ -13,9 +13,6 @@ class ScanNetDataset(Dataset):
         self.mode = mode
         self.n_views = nviews
         self.transforms = transforms
-        # self.tsdf_file = 'all_tsdf_{}'.format(self.n_views)
-        # self.planes_file = 'planes_{}'.format(self.n_views)
-        self.tsdf_file = 'planes_{}'.format(self.n_views)
         self.planes_file = 'planes_{}'.format(self.n_views)
 
         assert self.mode in ["train", "val", "test"]
@@ -30,7 +27,7 @@ class ScanNetDataset(Dataset):
         self.epoch = None
         self.tsdf_cashe = {}
         self.planes_cashe = {}
-        self.max_cashe = 1  # doesn't affect speed gpu=4: workers=16 ~70G. workers=12 ~60G
+        self.max_cache = 1  
 
     def build_list(self):
         with open(os.path.join(self.datapath, self.planes_file, 'fragments_{}.pkl'.format(self.mode)), 'rb') as f:
@@ -39,7 +36,7 @@ class ScanNetDataset(Dataset):
         if self.mode != 'train' and len(metas) != 0:
             # make sure to save results for all scenes (utils.py:SaveScene)
             metas.append(metas[0])
-        return metas#[:120]
+        return metas
 
     def __len__(self):
         return len(self.metas)
@@ -64,7 +61,7 @@ class ScanNetDataset(Dataset):
 
     def read_scene_planes(self, data_path, scene):
         if scene not in self.planes_cashe.keys():
-            if len(self.planes_cashe) > self.max_cashe:
+            if len(self.planes_cashe) > self.max_cache:
                 self.planes_cashe = {}
             planes = np.load(os.path.join('./data/scannet/planes_9', scene, 'annotation', 'planes.npy'))
             # a, b, c, -1

@@ -6,93 +6,13 @@ import numpy as np
 import torchvision.utils as vutils
 from skimage import measure
 from loguru import logger
-# import open3d as o3d
 import cv2
 from tools.bin_mean_shift import Bin_Mean_Shift
 from tools.ChamferDistancePytorch.chamfer3D import dist_chamfer_3D
-# from tools.seg_eval import *
 from scipy.spatial import Delaunay
 from tools.generate_planes import furthest_point_sampling, project2plane, writePointCloudFace
 from tools.random_color import random_color
-# from tools.evaluate_utils import nn_correspondance
 import trimesh
-
-
-def get_batch_offsets(batch_idxs, bs):
-    '''
-    :param batch_idxs: (N), int
-    :param bs: int
-    :return: batch_offsets: (bs + 1)
-    '''
-    batch_offsets = torch.zeros(bs + 1).int().cuda()
-    for i in range(bs):
-        batch_offsets[i + 1] = batch_offsets[i] + (batch_idxs == i).sum()
-    assert batch_offsets[-1] == batch_idxs.shape[0]
-    return batch_offsets
-
-
-def generate_plane_gt(cfg, inputs):
-    x, y, z = cfg.N_VOX
-    plane_points = inputs['plane_points']
-    coords = inputs['coords']
-    bs = len(plane_points)
-
-    with torch.no_grad():
-        coords = coords.permute(0, 2, 1).contiguous()
-        indices_list = []
-        mean_xyz = []
-        instance_pointnum = []
-        total_inst_num = 0
-        for b in range(bs):
-            coords_batch = coords[b]
-            plane_points_batch = plane_points[b]
-            dist_list_batch = []
-            mean_xyz_batch = []
-            for points in plane_points_batch:
-                mean_xyz_batch.append(points.mean(0))
-                instance_pointnum.append(points.shape[0])
-                chamLoss = dist_chamfer_3D.chamfer_3DDist()
-                dist1, _, _, _ = chamLoss(coords_batch.unsqueeze(0), points.unsqueeze(0))
-                dist_list_batch.append(dist1)
-            dist = torch.stack(dist_list_batch)
-            min_dist, indices = dist.min(dim=0)
-            mean_xyz_points = torch.stack(mean_xyz_batch)[indices[0]]
-
-            invalid_idx = min_dist[0] > 0.36 ** 2
-            mean_xyz_points[invalid_idx] = 0
-
-            indices_list.append(indices + total_inst_num)
-            total_inst_num += len(plane_points_batch)
-            mean_xyz.append(mean_xyz_points)
-        label_list = []
-        mean_xyz_list = []
-        indices = torch.stack(indices_list).view(-1, x, y, z)
-        mean_xyz = torch.stack(mean_xyz).view(-1, x, y, z, 3)
-        for l in range(cfg.N_LAYER):
-            label_list.append(indices[:, ::2 ** l, ::2 ** l, ::2 ** l].contiguous())
-            mean_xyz_list.append(mean_xyz[:, ::2 ** l, ::2 ** l, ::2 ** l].contiguous())
-        inputs['label_list'] = label_list
-        inputs['mean_xyz_list'] = mean_xyz_list
-        inputs['instance_pointnum'] = torch.Tensor(instance_pointnum).int().cuda()
-
-    return inputs
-
-
-def get_segmented_scores(scores, fg_thresh=1.0, bg_thresh=0.0):
-    '''
-    :param scores: (N), float, 0~1
-    :return: segmented_scores: (N), float 0~1, >fg_thresh: 1, <bg_thresh: 0, mid: linear
-    '''
-    fg_mask = scores > fg_thresh
-    bg_mask = scores < bg_thresh
-    interval_mask = (fg_mask == 0) & (bg_mask == 0)
-
-    segmented_scores = (fg_mask > 0).float()
-    k = 1 / (fg_thresh - bg_thresh)
-    b = bg_thresh / (bg_thresh - fg_thresh)
-    segmented_scores[interval_mask] = scores[interval_mask] * k + b
-
-    return segmented_scores
 
 
 # print arguments
@@ -171,27 +91,6 @@ def save_scalars(logger, mode, scalar_dict, global_step):
             for idx in range(len(value)):
                 name = '{}/{}_{}'.format(mode, key, idx)
                 logger.add_scalar(name, value[idx], global_step)
-
-
-def save_images(logger, mode, images_dict, global_step):
-    images_dict = tensor2numpy(images_dict)
-
-    def preprocess(name, img):
-        if not (len(img.shape) == 3 or len(img.shape) == 4):
-            raise NotImplementedError("invalid img shape {}:{} in save_images".format(name, img.shape))
-        if len(img.shape) == 3:
-            img = img[:, np.newaxis, :, :]
-        img = torch.from_numpy(img[:1])
-        return vutils.make_grid(img, padding=0, nrow=1, normalize=True, scale_each=True)
-
-    for key, value in images_dict.items():
-        if not isinstance(value, (list, tuple)):
-            name = '{}/{}'.format(mode, key)
-            logger.add_image(name, preprocess(name, value), global_step)
-        else:
-            for idx in range(len(value)):
-                name = '{}/{}_{}'.format(mode, key, idx)
-                logger.add_image(name, preprocess(name, value[idx]), global_step)
 
 
 class DictAverageMeter(object):

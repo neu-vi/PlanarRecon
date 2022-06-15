@@ -25,11 +25,10 @@ from torchsparse import PointTensor
 from loguru import logger
 
 from models.modules import SPVCNN
-from utils import apply_log_transform, get_batch_offsets, get_segmented_scores
+from utils import apply_log_transform
 from .gru_fusion import GRUFusion
 from ops.back_project import back_project
 from ops.generate_grids import generate_grid
-# from tools.pointgroup_ops.functions import pointgroup_ops
 from tools.bin_mean_shift import Bin_Mean_Shift
 
 

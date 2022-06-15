@@ -75,10 +75,6 @@ def process(scene, total_scenes_index, total_scenes_count):
     mesh_pred = trimesh.load(mesh_file, process=False)
     
     pred_ins = np.load(os.path.join(save_path, scene, 'indices.npy'), allow_pickle=True)
-    # _pred_ins = np.load(save_path + '/{}_planeIns.npy'.format(scene), allow_pickle=True)
-    # pred_ins = _pred_ins.item().get('plane_ins')
-    # conf = _pred_ins.item().get('conf')
-    conf = None
 
     mesh_planeIns_transfer = project_to_mesh(mesh_pred, mesh_trgt, pred_ins, 'plane_ins')
     planeIns = mesh_planeIns_transfer.vertex_attributes['plane_ins']
@@ -89,12 +85,6 @@ def process(scene, total_scenes_index, total_scenes_count):
     
     mesh_planeIns_transfer.export(os.path.join(plnIns_save_pth, '%s_planeIns_transfer.ply' % scene))
     np.savetxt(plnIns_save_pth + '/%s.txt'%scene, planeIns, fmt='%d')
-    # For RANSAC output, we have conf = None, and during eval we use all confidence = 1
-    # export_instance_ids_for_eval(os.path.join(plnIns_save_pth, '%s.txt' % scene),
-    #                              label_ids= np.ones_like(planeIns),
-    #                              instance_ids= planeIns,
-    #                              conf=conf
-    #                              )
 
     return scene, metrics
 
@@ -103,15 +93,6 @@ def process(scene, total_scenes_index, total_scenes_count):
 def process_with_single_worker(info_files):
     metrics = {}
     for i, info_file in enumerate(info_files):
-        # if info_file == 'scene0704_00' or info_file == 'scene0702_01' or info_file == 'scene0702_00'or info_file == 'scene0702_02':
-        #     continue
-        # if not os.path.exists(os.path.join(args.model, info_file, 'planes_mesh.ply')):
-        #     continue
-        # if info_file.split('_')[1] != '00':
-            # continue
-        # if not os.path.exists(os.path.join(args.model, '{}_plane_only.ply'.format(info_file))):
-            # continue
-
         scene, temp = process(info_file, i, len(info_files))
         if temp is not None:
             metrics[scene] = temp
@@ -131,10 +112,8 @@ def main():
 
     ray.init(num_cpus=all_proc * (args.num_workers + 1), num_gpus=args.n_gpu)
 
-    val_file = open('/work/vig/Datasets/ScanNet/ScanNet/Tasks/Benchmark/scannetv2_val.txt', 'r')
-    # val_file = open('./tools/scannetv1_val.txt', 'r')
+    val_file = open('./data/scannet/scannetv2_val.txt', 'r')
     info_files = sorted(val_file.read().splitlines())
-    # info_files = ['scene0100_00', 'scene0277_00', 'scene0559_00']
 
     info_files = split_list(info_files, all_proc)
 
@@ -163,8 +142,6 @@ def main():
             met[key] = value / len(metrics)
     metrics = met
 
-
-    # rslt_file = os.path.join(args.model, 'metrics_planenet.json')
     rslt_file = os.path.join(args.model, 'metrics.json')
 
     json.dump(str(metrics), open(rslt_file, 'w'))
