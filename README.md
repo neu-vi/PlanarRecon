@@ -1,5 +1,5 @@
 # PlanarRecon: Real-time 3D Plane Detection and Reconstruction from Posed Monocular Videos
-### [Project Page](https://neu-vi.github.io/planarrecon) | [Paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Xie_PlanarRecon_Real-Time_3D_Plane_Detection_and_Reconstruction_From_Posed_Monocular_CVPR_2022_paper.pdf)
+### [Project Page](https://neu-vi.github.io/planarrecon) | [Paper](https://arxiv.org/pdf/2206.07710.pdf)
 <br/>
 
 > PlanarRecon: Real-time 3D Plane Detection and Reconstruction from Posed Monocular Videos  
