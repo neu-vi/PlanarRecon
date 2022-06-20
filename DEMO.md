@@ -1,7 +1,7 @@
 
 # Run Demo with Custom ARKit Data 
 ### (modified from [NeuralRecon/Demo.md](https://github.com/zju3dv/NeuralRecon/blob/master/DEMO.md))
-In this tutorial we introduce the real-time demo of NeuralRecon running with self-captured ARKit data. If you don't want to take the effort capturing your own data, you can download the [example data](https://drive.google.com/file/d/1FKccOUCW2T_rV81VhqVeqeo-dec8ooNW/view?usp=sharing) and skip step 1.
+In this tutorial we introduce the real-time demo of PlanarRecon running with self-captured ARKit data. If you don't want to take the effort capturing your own data, you can download the [example data](https://drive.google.com/file/d/1FKccOUCW2T_rV81VhqVeqeo-dec8ooNW/view?usp=sharing) and skip step 1.
 
 To capture data and run this demo, an Apple device (iPhone or iPad) with ARKit support is required. 
 Generally speaking, devices released after 2017 (e.g. iPhone 7 and later generations) are all supported. 
@@ -29,7 +29,7 @@ Be sure to move around your device frequently during capture to get more views w
 After [retrieving the captured data](https://github.com/Varvrar/ios_logger#get-saved-datasets) and transfer it to a GPU-enabled machine, you are good to proceed. Notice that it's a good idea to start with the [example data](https://drive.google.com/file/d/1FKccOUCW2T_rV81VhqVeqeo-dec8ooNW/view?usp=sharing) to make sure the environment for PlanarRecon is correctly configured.
 
 1. Change the data path in [demo.yaml](config/demo.yaml).
-2. Run NeuralRecon demo: 
+2. Run PlanarRecon demo: 
 `
 python demo.py --cfg ./config/demo.yaml
 `
