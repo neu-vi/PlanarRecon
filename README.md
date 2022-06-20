@@ -115,7 +115,7 @@ More info about training to be added soon.
 
 
 ### Real-time Demo on Custom Data with Camera Poses from ARKit.
-We provide a real-time demo of PlanarRecon running with self-captured ARKit data. Please refer to [DEMO.md](DEMO.md) for details.
+We provide a demo of PlanarRecon running with self-captured ARKit data. Please refer to [DEMO.md](DEMO.md) for details.
 We also provide the [example data](https://drive.google.com/file/d/1FKccOUCW2T_rV81VhqVeqeo-dec8ooNW/view?usp=sharing) captured using iPhoneXR.
 Incrementally saving and visualizing are not enabled in PlanarRecon for now.
 
