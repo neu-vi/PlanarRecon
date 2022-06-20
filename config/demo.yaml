@@ -15,7 +15,7 @@ TRAIN:
   LREPOCHS: '200,400,800:2'
 
 TEST:
-  PATH: '/work/vig/Datasets/PlanarRecon/demo_data/2020-11-22T00-51-21'
+  PATH: '/work/vig/Datasets/PlanarRecon/demo_data/2022-05-09T17-21-06'
   N_VIEWS: 9
   N_WORKERS: 4  
 
