@@ -40,3 +40,5 @@ MODEL:
   POS_WEIGHT: 1.5
 
   TRACKING: True
+
+  NORMAL_ANCHOR_PATH: './data/scannet/planes_9/normal_anchors.npy'

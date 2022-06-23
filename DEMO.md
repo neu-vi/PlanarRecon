@@ -27,6 +27,7 @@ Be sure to move around your device frequently during capture to get more views w
 
 ## Step 2: Run the demo
 After [retrieving the captured data](https://github.com/Varvrar/ios_logger#get-saved-datasets) and transfer it to a GPU-enabled machine, you are good to proceed. Notice that it's a good idea to start with the [example data](https://drive.google.com/file/d/1FKccOUCW2T_rV81VhqVeqeo-dec8ooNW/view?usp=sharing) to make sure the environment for PlanarRecon is correctly configured.
+If you didn't run data preparation for ScanNet, you need to download [normal anchors](https://drive.google.com/file/d/19KcT4XlKWuJNLHU8dDZEDJ7ulkVIETiB/view?usp=sharing), and change the NORMAL_ANCHOR_PATH in [demo.yaml](config/demo.yaml).
 
 1. Change the data path in [demo.yaml](config/demo.yaml).
 2. Run PlanarRecon demo: 
@@ -34,7 +35,7 @@ After [retrieving the captured data](https://github.com/Varvrar/ios_logger#get-s
 python demo.py --cfg ./config/demo.yaml
 `
 
-The reconstructed mesh will be available under `results/scene_demo_release_68`. 
+The reconstructed mesh will be available under `results/scene_demo_release_68`.  
 You can open the ply file with [MeshLab](https://www.meshlab.net/).
 
 ## Illustrations to the processed data format from ios_logger
