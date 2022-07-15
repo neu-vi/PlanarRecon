@@ -99,6 +99,7 @@ def compute_global_volume(args, cam_intr, cam_pose_list):
     # frustums in the dataset
     # ======================================================================================================== #
     vol_bnds = np.zeros((3, 2))
+    vol_bnds[:, 0] = np.inf
 
     n_imgs = len(cam_pose_list.keys())
     if n_imgs > 200:
