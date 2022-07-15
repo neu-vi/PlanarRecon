@@ -100,6 +100,7 @@ def compute_global_volume(args, cam_intr, cam_pose_list):
     # ======================================================================================================== #
     vol_bnds = np.zeros((3, 2))
     vol_bnds[:, 0] = np.inf
+    vol_bnds[:, 1] = -np.inf
 
     n_imgs = len(cam_pose_list.keys())
     if n_imgs > 200:
