@@ -1,5 +1,5 @@
 DATASET: 'scannet'
-BATCH_SIZE: 4
+BATCH_SIZE: 6
 SAVE_SCENE_MESH: False
 LOGDIR: './checkpoints/release'
 SAVE_FREQ: 1
@@ -7,7 +7,7 @@ MODE: 'train'
 
 TRAIN:
   PATH: 'data/scannet'
-  EPOCHS: 499
+  EPOCHS: 20
   N_VIEWS: 9
   LR: 5e-4
   N_WORKERS: 8
@@ -29,7 +29,7 @@ MODEL:
     ARC: 'fpn-mnas-1'
 
   FUSION:
-    FUSION_ON: True
+    FUSION_ON: False
     HIDDEN_DIM: 64
 
   LW: [1.0, 0.8, 0.64, 1.0]
@@ -37,5 +37,5 @@ MODEL:
   THRESHOLDS: [0, 0, 0]
   POS_WEIGHT: 1.5
 
-  TRACKING: True
+  TRACKING: False
 

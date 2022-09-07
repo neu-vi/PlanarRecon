@@ -89,29 +89,30 @@ python tools/eval3d_geo_ins.py --model ./results/scene_scannet_release_68 --n_pr
 
 ### Training on ScanNet
 
-Start training by running `./train.sh`.
-<!-- More info about training (e.g. GPU requirements, convergence time, etc.) to be added soon. -->
-<details>
-  <summary>[train.sh]</summary>
+Similar to NeuralRecon, the training is seperated to three phases and the switching is controlled manually for now:
 
+-  Phase 0 (the first 0-20 epoch), training single fragments.  
+`MODEL.FUSION.FUSION_ON=False, MODEL.TRACKING=False`
 ```bash
 #!/usr/bin/env bash
 export CUDA_VISIBLE_DEVICES=0,1
-python -m torch.distributed.launch --nproc_per_node=2 main.py --cfg ./config/train.yaml
+python -m torch.distributed.launch --nproc_per_node=2 main.py --cfg ./config/train_phase0.yaml
 ```
-</details>
-Similar to NeuralRecon, the training is seperated to three phases and the switching is controlled manually for now:
-
--  Phase 1 (the first 0-20 epoch), training single fragments.  
-`MODEL.FUSION.FUSION_ON=False, MODEL.TRACKING=False`
-
-- Phase 2 (21-35 epoch), with `GRUFusion`.  
+- Phase 1 (21-35 epoch), with `GRUFusion`.  
 `MODEL.FUSION.FUSION_ON=True, MODEL.TRACKING=False`
-
-- Phase 3 (the remaining 35-50 epoch), with `Matching/Fusion`.  
+```bash
+#!/usr/bin/env bash
+export CUDA_VISIBLE_DEVICES=0,1
+python -m torch.distributed.launch --nproc_per_node=2 main.py --cfg ./config/train_phase1.yaml
+```
+- Phase 2 (the remaining 35-50 epoch), with `Matching/Fusion`.  
 `MODEL.FUSION.FUSION_ON=True, MODEL.TRACKING=True`
+```bash
+#!/usr/bin/env bash
+export CUDA_VISIBLE_DEVICES=0,1
+python -m torch.distributed.launch --nproc_per_node=2 main.py --cfg ./config/train_phase2.yaml
+```
 
-More info about training to be added soon.  
 
 
 ### Real-time Demo on Custom Data with Camera Poses from ARKit.
