@@ -86,6 +86,14 @@ Evaluate 3D geometry:
 python tools/eval3d_geo_ins.py --model ./results/scene_scannet_release_68 --n_proc 16
 ```
 
+Evaluate plane segmentation:
+```
+# generate gt instance txt
+python tools/prepare_inst_gt_txt.py --val_list path_to_scannetv2_val.txt --plane_mesh_path path_to_planes_tsdf_9
+
+# eval instance
+python tools/eval3d_instance.py --pred_path path_to_pred/plane_ins --gt_path path_to_planes_tsdf_9/instance --scan_list path_to_scannetv2_val.txt
+```
 
 ### Training on ScanNet
 
