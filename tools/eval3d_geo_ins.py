@@ -64,8 +64,13 @@ def process(scene, total_scenes_index, total_scenes_count):
     print(mesh_file)
     print(file_mesh_trgt)
     # eval 3d geometry
-    metrics_mesh = eval_mesh(mesh_file_eval, file_mesh_trgt, error_map=False)
+    metrics_mesh, prec_err_pcd, recal_err_pcd = eval_mesh(mesh_file_eval, file_mesh_trgt, error_map=False)
     metrics = {**metrics_mesh}
+    # save error maps if needed
+    if prec_err_pcd is not None:
+        print('saving error maps {}'.format(scene))
+        o3d.io.write_triangle_mesh(os.path.join(save_path, scene,'%s_precErr.ply' % scene), prec_err_pcd)
+        o3d.io.write_triangle_mesh(os.path.join(save_path, scene, '%s_recErr.ply' % scene), recal_err_pcd)
 
     rslt_file = os.path.join(save_path, '%s_metrics.json' % scene.replace('/', '-'))
     json.dump(metrics, open(rslt_file, 'w'))

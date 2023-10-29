@@ -105,7 +105,38 @@ def eval_mesh(file_pred, file_trgt, threshold=.05, down_sample=.02, error_map=Tr
                'recal': recal,
                'fscore': fscore,
                }
-    return metrics
+    if error_map:
+        # repeat but without downsampling
+        mesh_pred = o3d.io.read_triangle_mesh(file_pred)
+        mesh_trgt = o3d.io.read_triangle_mesh(file_trgt)
+        verts_pred = np.asarray(mesh_pred.vertices)
+        verts_trgt = np.asarray(mesh_trgt.vertices)
+        _, dist1 = nn_correspondance(verts_pred, verts_trgt)
+        _, dist2 = nn_correspondance(verts_trgt, verts_pred)
+        dist1 = np.array(dist1)
+        dist2 = np.array(dist2)
+
+        # recall_err_viz
+        from matplotlib import cm
+        cmap = cm.get_cmap('jet')
+        # cmap = cm.get_cmap('brg')
+        dist1_n = dist1 / 0.3
+        color = cmap(dist1_n)
+        # recal_mask = (dist1 < threshold)        
+        # color = np.array([[1., 0., 0]]).repeat(verts_trgt.shape[0], axis=0)
+        # color[recal_mask] = np.array([[0, 1., 0]]).repeat((recal_mask.sum()).astype(np.int), axis=0)
+        mesh_trgt.vertex_colors = o3d.utility.Vector3dVector(color[:, :3])
+
+        # precision_err_viz
+        dist2_n = dist2 / 0.4
+        color = cmap(dist2_n)
+        # prec_mask = dist2 < threshold
+        # color = np.array([[1., 0., 0]]).repeat(verts_pred.shape[0], axis=0)
+        # color[prec_mask] = np.array([[0, 1., 0]]).repeat((prec_mask.sum()).astype(np.int), axis=0)
+        mesh_pred.vertex_colors = o3d.utility.Vector3dVector(color[:, :3])
+    else:
+        mesh_pred = mesh_trgt = None
+    return metrics, mesh_pred, mesh_trgt
 
 
 def nn_correspondance(verts1, verts2):
