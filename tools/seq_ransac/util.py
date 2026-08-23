@@ -392,7 +392,7 @@ def extract_plane_surface(plane_ins, piecewise_mesh):
     non_tri_pnts = non_tri_pnts.view(dtype='f8').reshape([non_tri_pnts.shape[0], 3])
 
     # to get non-tri pnts color
-    vmask = np.in1d(verts.view(dtype='f8,f8,f8').reshape(verts.shape[0]),
+    vmask = np.isin(verts.view(dtype='f8,f8,f8').reshape(verts.shape[0]),
                     non_tri_pnts.view(dtype='f8,f8, f8').reshape(non_tri_pnts.shape[0]))
     non_tri_color = all_color[vmask]
 

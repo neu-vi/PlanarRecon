@@ -34,8 +34,8 @@ def eval(opt, scene):
     pred_pth = os.path.join(opt.pred_path, '{}.txt'.format(scene))
     gt_pth = os.path.join(opt.gt_path, '{}.txt'.format(scene))
 
-    pred_ins = np.loadtxt(pred_pth).astype(np.int)
-    gt_ins = np.loadtxt(gt_pth).astype(np.int)
+    pred_ins = np.loadtxt(pred_pth).astype(int)
+    gt_ins = np.loadtxt(gt_pth).astype(int)
 
     # mask_value_less than 
     # unique_value = np.unique(gt_ins)

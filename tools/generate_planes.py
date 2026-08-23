@@ -340,7 +340,7 @@ def project2plane(plane, plane_points):
 
 def points2contours(points, size=0.1):
     points = points / size
-    points = points.astype(np.int)
+    points = points.astype(int)
     min_point = points.min(axis=0) - 5
     max_point = points.max(axis=0) + 5
     image_size = max_point - min_point + 1

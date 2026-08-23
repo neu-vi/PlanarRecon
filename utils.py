@@ -213,7 +213,7 @@ class SaveScene(object):
                 plane_points = plane_points - plane[np.newaxis, :3] * t[:, np.newaxis]
 
                 face = face + total_points
-                points_idx = np.ones(plane_points.shape[0]).astype(np.int) * i
+                points_idx = np.ones(plane_points.shape[0]).astype(int) * i
 
                 points_plane.append(plane_points)
                 points_plane_idx.append(points_idx)
